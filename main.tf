@@ -18,12 +18,6 @@ provider "google" {
   zone    = var.DEFAULT_ZONE
 }
 
-module "gcr" {
-  source = "./modules/gcr"
-
-  project_id = var.PROJECT_ID
-}
-
 module "gke" {
   source = "./modules/gke"
 }
