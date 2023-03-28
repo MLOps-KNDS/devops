@@ -11,7 +11,7 @@ jobs:
   terraform:
     name: 'Destroy resources'
     runs-on: ubuntu-latest
-
+    
     steps:
 
     - name: Checkout
