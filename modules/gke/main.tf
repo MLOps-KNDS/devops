@@ -1,5 +1,5 @@
 resource "google_project_service" "gke" {
-  project = var.PROJECT_ID
+  project = var.project_id
   service = " container.googleapis.com"
 }
 
