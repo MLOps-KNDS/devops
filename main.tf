@@ -20,6 +20,4 @@ provider "google" {
 
 module "gke" {
   source = "./modules/gke"
-
-  project_id = var.PROJECT_ID
 }
