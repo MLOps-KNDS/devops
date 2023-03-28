@@ -1,9 +1,3 @@
-resource "google_project_service" "gke" {
-  project = var.project_id
-  service = " container.googleapis.com"
-}
-
-
 resource "google_container_cluster" "gke" {
   name = "gke-cluster"
 

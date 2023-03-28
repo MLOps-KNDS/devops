@@ -1,8 +1,3 @@
-variable "project_id" {
-  description = "A GCP project ID."
-  type        = string
-}
-
 variable "node_count" {
   description = "A number of kubernetes nodes."
   type        = number
