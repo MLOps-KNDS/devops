@@ -20,4 +20,8 @@ provider "google" {
 
 module "gke" {
   source = "./modules/gke"
+
+  name       = "main-cluster"
+  node_count = 1
+  node_size  = "g1-small"
 }
