@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = "tf-state-store"
+    bucket = "mlops-knds-tf-state-store"
     prefix = "terraform/state"
   }
 }
@@ -18,12 +18,10 @@ provider "google" {
   zone    = var.DEFAULT_ZONE
 }
 
-module "gcr" {
-  source = "./modules/gcr"
-
-  project_id = var.PROJECT_ID
-}
-
 module "gke" {
   source = "./modules/gke"
+
+  name       = "main-cluster"
+  node_count = 1
+  node_size  = "g1-small"
 }
