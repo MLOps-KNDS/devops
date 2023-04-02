@@ -21,7 +21,9 @@ jobs:
       uses: hashicorp/setup-terraform@v1
 
     - name: Terraform Init
-      run: terraform init
+      run: |
+        cd infrastructure
+        terraform init
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         TF_VAR_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
@@ -29,7 +31,9 @@ jobs:
         TF_VAR_DEFAULT_ZONE: ${{ secrets.GOOGLE_ZONE }}
 
     - name: Terraform Destroy
-      run: terraform destroy -auto-approve
+      run: |
+        cd infrastructure
+        terraform destroy -auto-approve
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         TF_VAR_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
