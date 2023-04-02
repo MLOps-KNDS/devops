@@ -1,8 +1,10 @@
-# Infrastructure
+# DevOps
 
-Space for our infrastructure-as-code definitions and pipelines.
+Space for our IaC definitions and deployment pipelines.
 
-## Prerequisites
+## Terraform definitions for GCP
+
+### Prerequisites
 
 To do after creating a new GCP project:
 
@@ -16,9 +18,11 @@ To do after creating a new GCP project:
    - `GOOGLE_REGION` storing a default GCP region
    - `GOOGLE_ZONE` storing a default GCP zone
 
-## Workflows
+### Workflows
 
 GitHub Actions workflows in this repository:
 
 - `Create GCP Environment` creates GCP resources.
 - `Destroy GCP Environment` destroys GCP resources.
+
+## Continues Deployment on Kubernetes
