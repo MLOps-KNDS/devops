@@ -22,7 +22,6 @@ To do after creating a new GCP project:
 
 GitHub Actions workflows in this repository:
 
-- `Create GCP Environment` creates GCP resources.
-- `Destroy GCP Environment` destroys GCP resources.
+- `GCP Environment` creates/destroys GCP resources.
 
 ## Continues Deployment on Kubernetes
