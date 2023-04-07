@@ -4,9 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: 'Mode'
+        type: choice
+        description: Mode
         required: true
-        default: 'Create'
+        default: Create
         options:
           - Create
           - Destroy
