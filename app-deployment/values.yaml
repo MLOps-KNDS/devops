@@ -1,0 +1,7 @@
+memory: 16Mi
+cpu: 50m
+image:
+  name: api
+  tag: mlops
+  pullPolicy: Never
+appName: mlops

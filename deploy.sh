@@ -8,5 +8,7 @@ do
 
     docker build -t "$img_name:$TAG" -f "$dockerfile" .
 
+    docker push "$img_name:$TAG"
+
     kubectl apply -f ./k8s/deployment.yaml 
 done
