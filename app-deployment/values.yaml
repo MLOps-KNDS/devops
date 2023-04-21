@@ -1,7 +1,12 @@
-memory: 16Mi
-cpu: 50m
+resources:
+  memory: 16Mi
+  cpu: 50m
+  maxMemory: 32Mi
+  maxCpu: 100m
+
+appName: mlops
+
 image:
   name: api
   tag: mlops
   pullPolicy: Never
-appName: mlops

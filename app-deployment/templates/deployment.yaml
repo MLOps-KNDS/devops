@@ -19,6 +19,9 @@ spec:
         image: {{ .Values.image.name }}:{{ .Values.image.tag }}
         imagePullPolicy: {{ .Values.image.pullPolicy}}
         resources:
+          request:
+            memory: {{ .Values.resources.memory }}
+            cpu: {{ .Values.resources.cpu }}
           limits:
-            memory: {{ .Values.memory }}
-            cpu: {{ .Values.cpu }}
+            memory: {{ .Values.resources.maxMemory }}
+            cpu: {{ .Values.resources.maxCpu }}
