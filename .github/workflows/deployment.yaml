@@ -16,33 +16,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Checkout Backend
-      uses: actions/checkout@v3
+    - uses: ./.github/template/build-component
       with:
         repository: MLOps-KNDS/backend
-        path: backend
-
-    - name: Build docker image
-      run: docker build -t gcr.io/$GOOGLE_PROJECT_ID/backend:latest backend/app
-      env:
-        GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
-
-    - name: Authenticate to GCP
-      uses: google-github-actions/auth@v0
-      with:
-        credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
-
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v0
-
-    - name: Push to Google Container Registry
-      run: |
-        echo $GOOGLE_CREDENTIALS > credentials.json
-        docker login -u _json_key --password-stdin https://gcr.io < credentials.json
-        docker push gcr.io/$GOOGLE_PROJECT_ID/backend:latest
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-        GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
+        dockerfile-path: app
+        image-name: backend
+        image-tag: latest
 
   build-frontend:
     name: Build Frontend
@@ -52,33 +31,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Checkout Frontend
-      uses: actions/checkout@v3
-      with:
-        repository: MLOps-KNDS/frontend
-        path: frontend
-
-    - name: Build docker image
-      run: docker build -t gcr.io/$GOOGLE_PROJECT_ID/frontend:latest .
-      env:
-        GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
-
-    - name: Authenticate to GCP
-      uses: google-github-actions/auth@v0
-      with:
-        credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
-
-    - name: Set up Cloud SDK
-      uses: google-github-actions/setup-gcloud@v0
-
-    - name: Push to Google Container Registry
-      run: |
-        echo $GOOGLE_CREDENTIALS > credentials.json
-        docker login -u _json_key --password-stdin https://gcr.io < credentials.json
-        docker push gcr.io/$GOOGLE_PROJECT_ID/frontend:latest
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-        GOOGLE_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
+    # - uses: ./.github/template/build-component
+    #   with:
+    #     repository: MLOps-KNDS/frontend
+    #     dockerfile-path: .
+    #     image-name: frontend
+    #     image-tag: latest
 
   create-namespaces:
     name: Create Namespaces
