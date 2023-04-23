@@ -1,4 +1,4 @@
-name: Build Component
+name: Build Image
 
 on:
   workflow_call:
@@ -17,6 +17,7 @@ on:
         required: true
 
 jobs:
+
   build:
     name: Build
     runs-on: ubuntu-latest
