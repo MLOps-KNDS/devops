@@ -9,7 +9,7 @@ permissions:
 jobs:
 
   build-backend:
-    uses: ./.github/workflows/build_image.yaml@feature/deployment
+    uses: ./.github/workflows/build_image.yaml
     with:
       repository: MLOps-KNDS/backend
       dockerfile-path: app
@@ -17,7 +17,7 @@ jobs:
       image-tag: latest
 
   build-frontend:
-    uses: ./.github/workflows/build_image.yaml@feature/deployment
+    uses: ./.github/workflows/build_image.yaml
     with:
       repository: MLOps-KNDS/frontend
       dockerfile-path: app
