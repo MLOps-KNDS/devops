@@ -110,3 +110,8 @@ jobs:
     needs: [install-istio, install-argo-workflows, install-grafana]
     uses: ./.github/workflows/deploy_image.yaml
     secrets: inherit
+
+  deploy-database:
+    needs: [install-istio, install-argo-workflows, install-grafana]
+    uses: ./.github/workflows/deploy_image.yaml
+    secrets: inherit
