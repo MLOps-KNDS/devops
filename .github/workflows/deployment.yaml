@@ -15,6 +15,7 @@ jobs:
       dockerfile-path: app
       image-name: backend
       image-tag: latest
+    secrets: inherit
 
   build-frontend:
     uses: ./.github/workflows/build_image.yaml
@@ -23,6 +24,7 @@ jobs:
       dockerfile-path: app
       image-name: frontend
       image-tag: latest
+    secrets: inherit
 
   create-namespaces:
     name: Create Namespaces

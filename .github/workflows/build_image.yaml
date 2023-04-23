@@ -15,11 +15,6 @@ on:
       image-tag:
         type: string
         required: true
-    secrets:
-      GOOGLE_PROJECT_ID:
-        required: true
-      GOOGLE_CREDENTIALS:
-        required: true
 
 jobs:
 
