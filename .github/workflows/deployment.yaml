@@ -9,35 +9,20 @@ permissions:
 jobs:
 
   build-backend:
-    name: Build Backend
-    runs-on: ubuntu-latest
-    steps:
-
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Build and Push the image
-      uses: ./.github/template/build-component
-      with:
-        repository: MLOps-KNDS/backend
-        dockerfile-path: app
-        image-name: backend
-        image-tag: latest
+    uses: MLOps-KNDS/.github/workflows/build-component.yaml
+    with:
+      repository: MLOps-KNDS/backend
+      dockerfile-path: app
+      image-name: backend
+      image-tag: latest
 
   build-frontend:
-    name: Build Frontend
-    runs-on: ubuntu-latest
-    steps:
-
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    # - uses: ./.github/template/build-component
-    #   with:
-    #     repository: MLOps-KNDS/frontend
-    #     dockerfile-path: .
-    #     image-name: frontend
-    #     image-tag: latest
+    uses: MLOps-KNDS/.github/workflows/build-component.yaml
+    with:
+      repository: MLOps-KNDS/frontend
+      dockerfile-path: app
+      image-name: frontend
+      image-tag: latest
 
   create-namespaces:
     name: Create Namespaces
