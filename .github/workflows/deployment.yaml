@@ -41,7 +41,11 @@ jobs:
       uses: google-github-actions/setup-gcloud@v0
 
     - name: Get cluster credentials
-      run: gcloud container clusters get-credentials main-cluster --zone ${{ secrets.GOOGLE_ZONE }} --project ${{ secrets.GOOGLE_PROJECT_ID }}
+      uses: google-github-actions/get-gke-credentials@v1
+      with:
+        cluster_name: main-cluster
+        location: ${{ secrets.GOOGLE_ZONE }}
+        project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
 
     - name: Create namespaces
       run: |
