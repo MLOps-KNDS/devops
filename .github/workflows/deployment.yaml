@@ -17,7 +17,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Build and Push the image
-      uses: ./.github/workflows/template/build-component
+      uses: ./.github/template/build-component
       with:
         repository: MLOps-KNDS/backend
         dockerfile-path: app
