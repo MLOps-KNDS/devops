@@ -49,10 +49,10 @@ jobs:
 
     - name: Create namespaces
       run: |
-        kubectl create namespace istio-system
-        kubectl create namespace argo
-        kubectl create namespace app
-        kubectl create namespace models
+        namespaces=("app" "models" "istio-system" "argo" "monitoring")
+        for namespace in "${namespaces[@]}"; do
+          kubectl get ns $namespace || kubectl create ns $namespace
+        done
 
   install-istio:
     name: Install Istio
