@@ -1,0 +1,149 @@
+name: 'Deploy to Kubernetes'
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+
+  build-backend:
+    name: Build Backend
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Build and Push the image
+      uses: .github/workflows/template/build-component
+      with:
+        repository: MLOps-KNDS/backend
+        dockerfile-path: app
+        image-name: backend
+        image-tag: latest
+
+  build-frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # - uses: ./.github/template/build-component
+    #   with:
+    #     repository: MLOps-KNDS/frontend
+    #     dockerfile-path: .
+    #     image-name: frontend
+    #     image-tag: latest
+
+  create-namespaces:
+    name: Create Namespaces
+    runs-on: ubuntu-latest
+    needs: [build-backend, build-frontend]
+    steps:
+
+    - name: Authenticate to GCP
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+
+    - name: Get cluster credentials
+      run: gcloud container clusters get-credentials gke-cluster --zone ${{ secrets.GOOGLE_ZONE }} --project ${{ secrets.GOOGLE_PROJECT_ID }}
+
+    - name: Create namespaces
+      run: |
+        kubectl create namespace istio-system
+        kubectl create namespace argo
+        kubectl create namespace app
+        kubectl create namespace models
+
+  install-istio:
+    name: Install Istio
+    runs-on: ubuntu-latest
+    needs: [create-namespaces]
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Authenticate to GCP
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+
+  install-argo-workflows:
+    name: Install Argo Workflows
+    runs-on: ubuntu-latest
+    needs: [create-namespaces]
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Authenticate to GCP
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+
+  install-grafana:
+    name: Install Grafana
+    runs-on: ubuntu-latest
+    needs: [create-namespaces]
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Authenticate to GCP
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+
+  deploy-backend:
+    name: Deploy Backend
+    runs-on: ubuntu-latest
+    needs: [install-istio, install-argo-workflows]
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Authenticate to GCP
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+
+  deploy-frontend:
+    name: Deploy Frontend
+    runs-on: ubuntu-latest
+    needs: [install-istio, install-argo-workflows]
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Authenticate to GCP
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
