@@ -21,7 +21,7 @@ jobs:
     uses: ./.github/workflows/build_image.yaml
     with:
       repository: MLOps-KNDS/frontend
-      dockerfile-path: app
+      dockerfile-path: .
       image-name: frontend
       image-tag: latest
     secrets: inherit
@@ -41,7 +41,7 @@ jobs:
       uses: google-github-actions/setup-gcloud@v0
 
     - name: Get cluster credentials
-      run: gcloud container clusters get-credentials gke-cluster --zone ${{ secrets.GOOGLE_ZONE }} --project ${{ secrets.GOOGLE_PROJECT_ID }}
+      run: gcloud container clusters get-credentials main-cluster --zone ${{ secrets.GOOGLE_ZONE }} --project ${{ secrets.GOOGLE_PROJECT_ID }}
 
     - name: Create namespaces
       run: |
