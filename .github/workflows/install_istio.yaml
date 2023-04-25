@@ -1,0 +1,39 @@
+name: Install Istio
+
+on:
+  workflow_call:
+
+jobs:
+
+  istio-istio:
+    name: Install
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Authenticate to GCP
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+
+    - name: Get cluster credentials
+      uses: google-github-actions/get-gke-credentials@v1
+      with:
+        cluster_name: main-cluster
+        location: ${{ secrets.GOOGLE_ZONE }}
+        project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
+
+    - name: Get istioctl
+      shell: bash
+      run: |
+        curl -L https://istio.io/downloadIstio | sh -
+        cd istio-*
+        export PATH=$PWD/bin:$PATH
+
+    - name: Install istio-*
+      shell: bash
+      run: |
+        istioctl install -y
+        kubectl label namespace models istio-injection=enabled
