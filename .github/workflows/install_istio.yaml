@@ -25,15 +25,14 @@ jobs:
         location: ${{ secrets.GOOGLE_ZONE }}
         project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
 
-    - name: Get istioctl
+    - name: Install istio
       shell: bash
       run: |
         curl -L https://istio.io/downloadIstio | sh -
         cd istio-*
         export PATH=$PWD/bin:$PATH
-
-    - name: Install istio-*
-      shell: bash
-      run: |
         istioctl install -y
-        kubectl label namespace models istio-injection=enabled
+
+    - name: Enable injection
+      shell: bash
+      run: kubectl label namespace models istio-injection=enabled
