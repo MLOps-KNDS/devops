@@ -1,0 +1,31 @@
+db:
+  name: db
+  service:
+    name: db-service
+    ports:
+      protocol: TCP
+      target: 5432
+      port: 5432
+
+api:
+  name: api
+  service:
+    type: NodePort
+    name: api-service
+    ports:
+      protocol: TCP
+      target: 8000
+      port: 8000
+      node: 30001
+
+account:
+  service:
+    name: admin
+
+role:
+  name: pods-list
+  rules:
+    apiGroups:
+    resources:
+    verbs:
+      
