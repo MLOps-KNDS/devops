@@ -24,8 +24,3 @@ account:
 
 role:
   name: pods-list
-  rules:
-    apiGroups:
-    resources:
-    verbs:
-      

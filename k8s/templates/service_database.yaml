@@ -6,6 +6,6 @@ spec:
   selector:
     app:  {{ .Values.db.name }}
   ports:
-    - protocol: {{ .Values.db.service.protocol }}
-      port: {{ .Values.db.service.port }}
-      targetPort: {{ .Values.db.service.target }}
+    - protocol: {{ .Values.db.service.ports.protocol }}
+      port: {{ .Values.db.service.ports.port }}
+      targetPort: {{ .Values.db.service.ports.target }}
