@@ -1,0 +1,52 @@
+name: Install Grafana and Prometheus
+
+on:
+  workflow_call:
+
+jobs:
+
+  prometheus:
+    name: Install Prometheus
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Authenticate to GCP
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+
+    - name: Get cluster credentials
+      uses: google-github-actions/get-gke-credentials@v1
+      with:
+        cluster_name: main-cluster
+        location: ${{ secrets.GOOGLE_ZONE }}
+        project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
+
+    - name: Install Prometheus
+      uses: helm/k8s-actions/helm@v1.2.2
+      with:
+        chart: prometheus-community/kube-prometheus-stack
+        release: prometheus
+        version: 18.0.3
+        namespace: monitoring
+        values: |
+          prometheus:
+            prometheusSpec:
+              storageSpec:
+                volumeClaimTemplate:
+                  spec:
+                    accessModes:
+                      - ReadWriteOnce
+                    resources:
+                      requests:
+                        storage: 1Gi
+          grafana:
+            adminPassword: ${{ secrets.GRAFANA_ADMIN_PASSWORD }}
+
+    - name: Expose Grafana service
+      run: |
+        kubectl port-forward service/prometheus-grafana 3000:80 &
+        echo "Grafana is now available at http://localhost:3000"
