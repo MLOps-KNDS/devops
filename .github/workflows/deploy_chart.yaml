@@ -16,15 +16,22 @@ jobs:
       with:
         repository: ${{ inputs.repository }}
 
-
     - name: Authenticate to GCP
       uses: google-github-actions/auth@v0
       with:
         credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
-    - name: Install Helm
-      uses: Azure/setup-helm@v1
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+    
+    - name: Configure Docker to use GCR
+      run: gcloud auth configure-docker -q
+
+    - name: Retrieve the latest Docker image tag
+      run: |
+        IMAGE_NAME=$(cloud container images list-tags gcr.io/mlops-knds-382017/backend --format='get(digest)' --limit=1)
 
     - name: Deploy chart
       run:
-        helm upgrade --install k8s
+        helm upgrade --install backend ./backend \
+          -- set image.repository
