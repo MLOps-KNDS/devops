@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.name }}
+  labels:
+    app: {{ .Values.deployment.name }}
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.deployment.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment.name }}
+    spec:
+      {{ if .Values.deployment.template.spec.serviceaccount}}
+        serviceAccountName: {{ .Values.deployment.template.spec.serviceaccount }} # set to "admin" when deploying backend
+      {{ end}}
+      containers:
+      - name: {{ .Values.deployment.name }}
+        image: {{ .Values.deployment.template.spec.container.image }}
+        ports:
+        - containerPort: {{ .Values.deployment.template.spec.container.port }}
+        resources:
+          requests:
+            cpu: {{ .Values.deployment.template.spec.container.resources.requests.cpu }}
+            memory: {{ .Values.deployment.template.spec.container.resources.requests.memory }}
+          limits:
+            memory: {{ .Values.deployment.template.spec.container.resources.limits.memory }}
+            cpu: {{ .Values.deployment.template.spec.container.resources.limits.cpu }}
+        {{ - if .Values.deployment.envs }}
+        env: 
+          {{ - range .Values.deployment.envs }}
+          - name: { .name}
+            value: {{ .value}}
+          {{ - end }}
+        {{ - end}}
+
+        # api
+        #   - name: POSTGRES_HOST
+        #     value: "database-service"
+        #   - name: POSTGRES_PASSWORD
+        #     value: "postgres"
+
+        # db
+        # - name: POSTGRES_USER
+        #     value: "postgres"
+        #   - name: POSTGRES_PASSWORD
+        #     value: "postgres"
+        #   - name: POSTGRES_DB
+        #     value: "postgres"

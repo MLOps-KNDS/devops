@@ -1,22 +1,46 @@
-db:
-  name: db
-  service:
-    name: db-service
-    ports:
-      protocol: TCP
-      target: 5432
-      port: 5432
+deployment:
+  replicas: 1
+  name:
+  template:
+    spec:
+      serviceaccount: ""
+      container:
+        image:
+          required: true
+        port: 
+          required: true
+        resources:
+          requests:
+            memory: 300Mi
+            cpu: 200m
+          limits:
+            memory: 300Mi
+            cpu: 200m
+  envs:
+    required: false
 
-api:
-  name: api
-  service:
-    type: NodePort
-    name: api-service
-    ports:
-      protocol: TCP
-      target: 8000
-      port: 8000
-      node: 30001
+service:
+  name:
+    required: true
+  type: nil
+    required: false
+  ports:
+    port:
+      required: true
+    target:
+      required: true
+    protocol: TCP
+    node: nil
+      required: false
+
+      # api
+      # target: 8000
+      # port: 8000
+      # node: 30001
+
+      # db
+      # target: 5432
+      # port: 5432
 
 account:
   service:

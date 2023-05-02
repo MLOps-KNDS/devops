@@ -1,7 +1,0 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name:  {{ .Values.db.name }}
-  labels:
-    app:  {{ .Values.db.name }}
-
