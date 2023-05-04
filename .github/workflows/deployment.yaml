@@ -95,7 +95,6 @@ jobs:
 
   deploy-backend:
     needs: [install-istio, install-argo-workflows, install-grafana-prometheus]
-    uses: ./.github/workflows/deploy_image.yaml
     uses: ./.github/workflows/deploy_chart.yaml
     with:
       repository: backend
@@ -109,4 +108,6 @@ jobs:
   deploy-database:
     needs: [install-istio, install-argo-workflows, install-grafana-prometheus]
     uses: ./.github/workflows/deploy_image.yaml
+
+    
     secrets: inherit

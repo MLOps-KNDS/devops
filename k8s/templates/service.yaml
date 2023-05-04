@@ -3,15 +3,15 @@ kind: Service
 metadata:
   name: {{ .Values.service.name }}
 spec:
-  {{ - if .Values.service.type }}
+  {{ if .Values.service.type }}
   type: {{ .Values.service.type }} 
-  {{ - end }}
+  {{ end }}
   selector:
-    app: {{ .Values.api.name }}
+    app: {{ .Values.deployment.name }}
   ports:
     - protocol: {{ .Values.service.ports.protocol }}
       port: {{ .Values.service.ports.port }}
       targetPort:  {{ .Values.service.ports.target }}
-      {{ - if .Values.service.ports.node }}
+      {{ if .Values.service.ports.node }}
       nodePort: {{ .Values.service.ports.node }}
-      {{ - end }}
+      {{ end }}

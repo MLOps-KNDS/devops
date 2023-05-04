@@ -4,18 +4,20 @@ on:
   workflow_call:
     inputs:
       repository:
-        type: string
+        type : string
         required: true
       
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
+    steps:
     - name: Checkout to repo
       uses: actions/checkout@v3
       with:
         repository: ${{ inputs.repository }}
-
+    
     - name: Authenticate to GCP
       uses: google-github-actions/auth@v0
       with:
@@ -25,13 +27,4 @@ jobs:
       uses: google-github-actions/setup-gcloud@v0
     
     - name: Configure Docker to use GCR
-      run: gcloud auth configure-docker -q
-
-    - name: Retrieve the latest Docker image tag
-      run: |
-        IMAGE_NAME=$(cloud container images list-tags gcr.io/mlops-knds-382017/backend --format='get(digest)' --limit=1)
-
-    - name: Deploy chart
-      run:
-        helm upgrade --install backend ./backend \
-          -- set image.repository
+      run: gcloud auth configure-docker -q gcr.io

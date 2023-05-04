@@ -22,7 +22,7 @@ deployment:
 service:
   name:
     required: true
-  type: nil
+  type: 
     required: false
   ports:
     port:
@@ -30,7 +30,7 @@ service:
     target:
       required: true
     protocol: TCP
-    node: nil
+    node: 
       required: false
 
       # api

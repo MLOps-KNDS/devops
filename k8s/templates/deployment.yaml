@@ -14,7 +14,7 @@ spec:
       labels:
         app: {{ .Values.deployment.name }}
     spec:
-      {{ if .Values.deployment.template.spec.serviceaccount}}
+      {{ if .Values.deployment.template.spec.serviceaccount }}
         serviceAccountName: {{ .Values.deployment.template.spec.serviceaccount }} # set to "admin" when deploying backend
       {{ end}}
       containers:
@@ -29,13 +29,14 @@ spec:
           limits:
             memory: {{ .Values.deployment.template.spec.container.resources.limits.memory }}
             cpu: {{ .Values.deployment.template.spec.container.resources.limits.cpu }}
-        {{ - if .Values.deployment.envs }}
+        {{- if .Values.deployment.envs }}
+        {{- printf "true" }}
         env: 
-          {{ - range .Values.deployment.envs }}
-          - name: { .name}
-            value: {{ .value}}
-          {{ - end }}
-        {{ - end}}
+          {{- range .Values.deployment.envs }}
+          - name: {{-- .name }}
+            value: {{-- .value }}
+          {{- end }}
+        {{- end}}
 
         # api
         #   - name: POSTGRES_HOST
