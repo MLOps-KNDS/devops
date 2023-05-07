@@ -1,29 +1,32 @@
 deployment:
   replicas: 1
-  name:
+  name: api
   template:
     spec:
-      serviceaccount:
       container:
-        image:
-        port: 
+        image: api:0.1
+        port: 8000
         resources:
           requests:
             memory: 300Mi
             cpu: 200m
           limits:
-            memory: 300Mi
+            memory: 400Mi
             cpu: 200m
-  env: {}
+  env:
+    - name: POSTGRES_HOST
+      value: "database-service"
+    - name: POSTGRES_PASSWORD
+      value: "postgres"
 
 service:
-  name:
-  type: 
+  name: api-service
+  type: NodePort
   ports:
-    port:
-    target:
+    port: 8000
+    target: 8000
+    node: 30001
     protocol: TCP
-    node: 
 
 account:
   service:

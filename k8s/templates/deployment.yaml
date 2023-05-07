@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.deployment.name }}
+  name: {{ required "Name field must be specified" .Values.deployment.name }}
   labels:
     app: {{ .Values.deployment.name }}
 spec:
-  replicas: {{ .Values.deployment.replicas }}
+  replicas: {{ required "Replicas field must be specified" .Values.deployment.replicas }}
   selector:
     matchLabels:
       app: {{ .Values.deployment.name }}
@@ -16,12 +16,13 @@ spec:
     spec:
       {{ if .Values.deployment.template.spec.serviceaccount }}
         serviceAccountName: {{ .Values.deployment.template.spec.serviceaccount }} # set to "admin" when deploying backend
-      {{ end}}
+      {{ end }}
       containers:
       - name: {{ .Values.deployment.name }}
-        image: {{ .Values.deployment.template.spec.container.image }}
+        image: {{ required "Container image field must be specified" .Values.deployment.template.spec.container.image }}
+        imagePullPolicy: {{ .Values.deployment.imagePullPolicy | default "IfNotPresent" | quote }}
         ports:
-        - containerPort: {{ .Values.deployment.template.spec.container.port }}
+        - containerPort: {{ required "Container port field must be specified" .Values.deployment.template.spec.container.port }}
         resources:
           requests:
             cpu: {{ .Values.deployment.template.spec.container.resources.requests.cpu }}
@@ -29,25 +30,12 @@ spec:
           limits:
             memory: {{ .Values.deployment.template.spec.container.resources.limits.memory }}
             cpu: {{ .Values.deployment.template.spec.container.resources.limits.cpu }}
-        {{- if .Values.deployment.envs }}
-        {{- printf "true" }}
-        env: 
-          {{- range .Values.deployment.envs }}
-          - name: {{-- .name }}
-            value: {{-- .value }}
+
+        {{- if .Values.deployment.env }}
+        env:
+          {{- range .Values.deployment.env }}
+          - name: {{ .name | upper }}
+            value: {{ .value | quote }}
           {{- end }}
-        {{- end}}
-
-        # api
-        #   - name: POSTGRES_HOST
-        #     value: "database-service"
-        #   - name: POSTGRES_PASSWORD
-        #     value: "postgres"
-
-        # db
-        # - name: POSTGRES_USER
-        #     value: "postgres"
-        #   - name: POSTGRES_PASSWORD
-        #     value: "postgres"
-        #   - name: POSTGRES_DB
-        #     value: "postgres"
+        {{- end }}
+        
