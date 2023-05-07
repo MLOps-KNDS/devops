@@ -15,12 +15,12 @@ spec:
         app: {{ .Values.deployment.name }}
     spec:
       {{ if .Values.deployment.template.spec.serviceaccount }}
-        serviceAccountName: {{ .Values.deployment.template.spec.serviceaccount }} # set to "admin" when deploying backend
+        serviceAccountName: {{ .Values.deployment.template.spec.serviceAccount }} # set to "admin" when deploying backend
       {{ end }}
       containers:
       - name: {{ .Values.deployment.name }}
         image: {{ required "Container image field must be specified" .Values.deployment.template.spec.container.image }}
-        imagePullPolicy: {{ .Values.deployment.imagePullPolicy | default "IfNotPresent" | quote }}
+        imagePullPolicy: {{ .Values.deployment.template.spec.container.imagePullPolicy | default "IfNotPresent" | quote }}
         ports:
         - containerPort: {{ required "Container port field must be specified" .Values.deployment.template.spec.container.port }}
         resources:

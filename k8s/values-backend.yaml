@@ -5,6 +5,7 @@ deployment:
     spec:
       container:
         image: api:0.1
+        imagePullPolicy: Never
         port: 8000
         resources:
           requests:

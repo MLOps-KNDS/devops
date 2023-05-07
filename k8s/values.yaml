@@ -3,9 +3,10 @@ deployment:
   name:
   template:
     spec:
-      serviceaccount:
+      serviceAccount:
       container:
         image:
+        imagePullPolicy:
         port: 
         resources:
           requests:
