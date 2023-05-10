@@ -2,6 +2,8 @@ name: Deploy Image
 
 on:
   workflow_call:
+  workflow_dispatch: # testing purposes
+    
 
 jobs:
 
@@ -20,3 +22,8 @@ jobs:
 
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v0
+
+    - name: Test SDK
+      run: |
+        gcloud --quiet auth configure-docker
+        gcloud info
