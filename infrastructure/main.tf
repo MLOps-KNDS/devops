@@ -23,5 +23,5 @@ module "gke" {
 
   name       = "main-cluster"
   node_count = 3
-  node_size  = "n2-standard-4"
+  node_size  = "e2-standard-4"
 }
