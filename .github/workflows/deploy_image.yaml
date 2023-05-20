@@ -2,9 +2,10 @@ name: Deploy Image
 
 on:
   workflow_call:
-  workflow_dispatch: # testing purposes
-    
-
+    inputs:
+      stage:
+        type: string
+        required: true
 jobs:
 
   build:
@@ -23,7 +24,27 @@ jobs:
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v0
 
-    - name: Test SDK
+    - name: Get cluster credentials
+      uses: google-github-actions/get-gke-credentials@v1
+      with:
+        cluster_name: main-cluster
+        location: ${{ secrets.GOOGLE_ZONE }}
+        project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
+
+
+    - name: Configure Docker to use GCR
+      run: gcloud auth configure-docker 
+
+    - name: Install Helm
       run: |
-        gcloud --quiet auth configure-docker
-        gcloud info
+        curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+        ls -la 
+
+    - name: Deploy
+      run: |
+        docker pull gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}
+        helm upgrade --install chart --atomic -f k8s/values-${{ inputs.stage }}.yaml k8s
+
+
+
+    

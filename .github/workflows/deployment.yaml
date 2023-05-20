@@ -54,6 +54,7 @@ jobs:
           kubectl get ns $namespace || kubectl create ns $namespace
         done
 
+
   install-istio:
     needs: [create-namespaces]
     uses: ./.github/workflows/install_istio.yaml
@@ -94,20 +95,23 @@ jobs:
       uses: google-github-actions/setup-gcloud@v0
 
   deploy-backend:
+    name: Deploy backend of application
     needs: [install-istio, install-argo-workflows, install-grafana-prometheus]
-    uses: ./.github/workflows/deploy_chart.yaml
+    uses: ./.github/workflows/deploy_image.yaml
     with:
-      repository: backend
+      stage: backend
     secrets: inherit
 
   deploy-frontend:
     needs: [install-istio, install-argo-workflows, install-grafana-prometheus]
     uses: ./.github/workflows/deploy_image.yaml
+    with:
+      stage: backend #todo do zmiany
     secrets: inherit
 
   deploy-database:
     needs: [install-istio, install-argo-workflows, install-grafana-prometheus]
     uses: ./.github/workflows/deploy_image.yaml
-
-    
+    with:
+      stage: database
     secrets: inherit

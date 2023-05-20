@@ -4,8 +4,8 @@ deployment:
   template:
     spec:
       container:
-        image: api:0.1
-        imagePullPolicy: Never
+        image: gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/backend
+        imagePullPolicy: IfNotPresent
         port: 8000
         resources:
           requests:
