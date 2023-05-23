@@ -1,32 +1,30 @@
 deployment:
   replicas: 1
-  name: database
+  name: backend
   template:
     spec:
-      serviceAccount: admin
       container:
-        image: postgres
-        port: 5432
+        image: 
+        imagePullPolicy: IfNotPresent
+        port: 8000
         resources:
           requests:
             memory: 300Mi
             cpu: 200m
           limits:
-            memory: 300Mi
+            memory: 400Mi
             cpu: 200m
   env:
-    - name: POSTGRES_USER
-      value: "postgres"
     - name: POSTGRES_PASSWORD
-      value: "postgres"
-    - name: POSTGRES_DB
-      value: "postgres"
+      value: 
 
 service:
-  name: database-service
+  name: backend-service
+  type: NodePort
   ports:
-    port: 5432
-    target: 5432
+    port: 8000
+    target: 8000
+    node: 30001
     protocol: TCP
 
 account:

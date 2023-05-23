@@ -38,13 +38,29 @@ jobs:
     - name: Install Helm
       run: |
         curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-        ls -la 
+
+    - name: Pull an image
+      run: |
+        stage=${{ inputs.stage }}
+        if [ "$stage" = "backend" ] | [ "$stage" = "frontend" ]; then
+          docker pull gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/$stage
+        fi
 
     - name: Deploy
       run: |
-        docker pull gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}
-        helm upgrade --install chart --atomic -f k8s/values-${{ inputs.stage }}.yaml k8s
-
+        stage=${{ inputs.stage }}
+        if [ $stage = "backend" ]; then
+          helm upgrade --install 0.1.0 kubernetes --atomic \
+            -f kubernetes/values-backend.yaml \
+            --set deployment.template.spec.container.image=gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/backend \
+            --set-string "deployment.env[0].value=${{ secrets.POSTGRES_PASSWORD }}" 
+        elif [ $stage = "database" ]; then
+          helm upgrade --install 0.1.0 kubernetes --atomic \
+          -f kubernetes/values-database.yaml \
+          --set-string "deployment.env[0].value=${{ secrets.POSTGRES_USER }}" \
+          --set-string "deployment.env[1].value=${{ secrets.POSTGRES_PASSWORD }}" \
+          --set-string "deployment.env[2].value=${{ secrets.POSTGRES_DB }}"
+        fi
 
 
     

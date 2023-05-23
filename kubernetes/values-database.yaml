@@ -1,13 +1,12 @@
 deployment:
   replicas: 1
-  name:
+  name: database
   template:
     spec:
-      serviceAccount:
+      serviceAccount: admin
       container:
-        image:
-        imagePullPolicy:
-        port: 
+        image: postgres
+        port: 5432
         resources:
           requests:
             memory: 300Mi
@@ -15,16 +14,20 @@ deployment:
           limits:
             memory: 300Mi
             cpu: 200m
-  env: {}
+  env:
+    - name: POSTGRES_USER
+      value: 
+    - name: POSTGRES_PASSWORD
+      value: 
+    - name: POSTGRES_DB
+      value: 
 
 service:
-  name:
-  type: 
+  name: database-service
   ports:
-    port:
-    target:
+    port: 5432
+    target: 5432
     protocol: TCP
-    node: 
 
 account:
   service:
