@@ -33,7 +33,7 @@ service:
 
 account:
   service:
-    name: admin
+    name: admin-database
 
 role:
-  name: pods-list
+  name: pods-list-database
