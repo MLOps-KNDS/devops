@@ -17,11 +17,13 @@ deployment:
             memory: 400Mi
             cpu: 200m
   env:
+    - name: POSTGRES_HOST
+      value: database
     - name: POSTGRES_PASSWORD
       value: 
 
 service:
-  name: backend-service
+  name: backend
   type: NodePort
   ports:
     port: 8000

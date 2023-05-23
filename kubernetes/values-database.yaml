@@ -25,7 +25,7 @@ deployment:
       value: 
 
 service:
-  name: database-service
+  name: database
   ports:
     port: 5432
     target: 5432
