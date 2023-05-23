@@ -7,10 +7,12 @@ on:
         type: choice
         description: Mode
         required: true
-        default: Create
+        default: Destroy
         options:
           - Create
           - Destroy
+  schedule:
+    - cron: 0 1 * * *
 
 permissions:
   contents: read
