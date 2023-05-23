@@ -8,28 +8,28 @@ permissions:
 
 jobs:
 
-  # build-backend:
-  #   uses: ./.github/workflows/build_image.yaml
-  #   with:
-  #     repository: MLOps-KNDS/backend
-  #     dockerfile-path: app
-  #     image-name: backend
-  #     image-tag: latest
-  #   secrets: inherit
+  build-backend:
+    uses: ./.github/workflows/build_image.yaml
+    with:
+      repository: MLOps-KNDS/backend
+      dockerfile-path: app
+      image-name: backend
+      image-tag: latest
+    secrets: inherit
 
-  # build-frontend:
-  #   uses: ./.github/workflows/build_image.yaml
-  #   with:
-  #     repository: MLOps-KNDS/frontend
-  #     dockerfile-path: .
-  #     image-name: frontend
-  #     image-tag: latest
-  #   secrets: inherit
+  build-frontend:
+    uses: ./.github/workflows/build_image.yaml
+    with:
+      repository: MLOps-KNDS/frontend
+      dockerfile-path: .
+      image-name: frontend
+      image-tag: latest
+    secrets: inherit
 
   create-namespaces:
     name: Create Namespaces
     runs-on: ubuntu-latest
-  #   needs: [build-backend, build-frontend]
+    needs: [build-backend, build-frontend]
     steps:
 
     - name: Authenticate to GCP
@@ -55,48 +55,56 @@ jobs:
         done
 
 
-  # install-istio:
-  #   needs: [create-namespaces]
-  #   uses: ./.github/workflows/install_istio.yaml
-  #   secrets: inherit
+  install-istio:
+    needs: [create-namespaces]
+    uses: ./.github/workflows/install_istio.yaml
+    secrets: inherit
 
-  # install-argo-workflows:
-  #   name: Install Argo Workflows
-  #   runs-on: ubuntu-latest
-  #   needs: [create-namespaces]
-  #   steps:
+  install-argo-workflows:
+    name: Install Argo Workflows
+    runs-on: ubuntu-latest
+    needs: [create-namespaces]
+    steps:
 
-  #   - name: Checkout
-  #     uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
 
-  #   - name: Authenticate to GCP
-  #     uses: google-github-actions/auth@v0
-  #     with:
-  #       credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+    - name: Authenticate to GCP
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
-  #   - name: Set up Cloud SDK
-  #     uses: google-github-actions/setup-gcloud@v0
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
 
-  # install-grafana-prometheus:
-  #   name: Install Grafana and Prometheus
-  #   runs-on: ubuntu-latest
-  #   needs: [create-namespaces]
-  #   steps:
+  install-grafana-prometheus:
+    name: Install Grafana and Prometheus
+    runs-on: ubuntu-latest
+    needs: [create-namespaces]
+    steps:
 
-  #   - name: Checkout
-  #     uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
 
-  #   - name: Authenticate to GCP
-  #     uses: google-github-actions/auth@v0
-  #     with:
-  #       credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+    - name: Authenticate to GCP
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
-  #   - name: Set up Cloud SDK
-  #     uses: google-github-actions/setup-gcloud@v0
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+
+  deploy-database:
+    name: Deploy database
+    needs: [install-istio, install-argo-workflows, install-grafana-prometheus]
+    uses: ./.github/workflows/deploy_image.yaml
+    with:
+      stage: database
+    secrets: inherit
 
   deploy-backend:
     name: Deploy backend
-    # needs: [install-istio, install-argo-workflows, install-grafana-prometheus]
+    needs: [install-istio, install-argo-workflows, install-grafana-prometheus, deploy-database]
     uses: ./.github/workflows/deploy_image.yaml
     with:
       stage: backend
@@ -104,16 +112,8 @@ jobs:
 
   deploy-frontend:
     name: Deploy frontend
-    # needs: [install-istio, install-argo-workflows, install-grafana-prometheus]
+    needs: [install-istio, install-argo-workflows, install-grafana-prometheus, deploy-backend]
     uses: ./.github/workflows/deploy_image.yaml
     with:
       stage: frontend
-    secrets: inherit
-
-  deploy-database:
-    name: Deploy database
-    # needs: [install-istio, install-argo-workflows, install-grafana-prometheus]
-    uses: ./.github/workflows/deploy_image.yaml
-    with:
-      stage: database
     secrets: inherit

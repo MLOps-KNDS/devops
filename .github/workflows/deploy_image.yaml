@@ -39,13 +39,6 @@ jobs:
       run: |
         curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-    - name: Pull an image
-      run: |
-        stage=${{ inputs.stage }}
-        if [ "$stage" = "backend" ] | [ "$stage" = "frontend" ]; then
-          docker pull gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/$stage
-        fi
-
     - name: Deploy
       run: |
         stage=${{ inputs.stage }}
