@@ -96,7 +96,7 @@ jobs:
 
   deploy-database:
     name: Deploy database
-    needs: [install-istio, install-argo-workflows, install-grafana-prometheus]
+    needs: [install-istio]
     uses: ./.github/workflows/deploy_image.yaml
     with:
       stage: database
@@ -112,7 +112,7 @@ jobs:
 
   deploy-frontend:
     name: Deploy frontend
-    needs: [eploy-backend]
+    needs: [deploy-backend]
     uses: ./.github/workflows/deploy_image.yaml
     with:
       stage: frontend
