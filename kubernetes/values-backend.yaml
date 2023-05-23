@@ -1,3 +1,5 @@
+namespace: app
+
 deployment:
   replicas: 1
   name: backend

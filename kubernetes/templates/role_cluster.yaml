@@ -43,7 +43,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: {{ .Values.account.service.name }}
-  namespace: {{ .Values.role.namespace }}
+  namespace: {{ .Values.namespace }}
 roleRef:
   kind: ClusterRole
   name: {{ .Values.role.name }}
