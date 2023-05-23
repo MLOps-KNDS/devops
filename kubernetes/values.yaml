@@ -1,0 +1,36 @@
+deployment:
+  replicas: 1
+  name:
+  template:
+    spec:
+      serviceAccount:
+      container:
+        image:
+        imagePullPolicy:
+        port: 
+        resources:
+          requests:
+            memory: 300Mi
+            cpu: 200m
+          limits:
+            memory: 300Mi
+            cpu: 200m
+  env: {}
+
+service:
+  name:
+  type: 
+  ports:
+    port:
+    target:
+    protocol: TCP
+    node: 
+
+account:
+  service:
+    name: admin
+
+role:
+  name: pods-list
+  namespace: app
+  

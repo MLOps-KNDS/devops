@@ -2,7 +2,10 @@ name: Deploy Image
 
 on:
   workflow_call:
-
+    inputs:
+      stage:
+        type: string
+        required: true
 jobs:
 
   build:
@@ -20,3 +23,37 @@ jobs:
 
     - name: Set up Cloud SDK
       uses: google-github-actions/setup-gcloud@v0
+
+    - name: Get cluster credentials
+      uses: google-github-actions/get-gke-credentials@v1
+      with:
+        cluster_name: main-cluster
+        location: ${{ secrets.GOOGLE_ZONE }}
+        project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
+
+
+    - name: Configure Docker to use GCR
+      run: gcloud auth configure-docker 
+
+    - name: Install Helm
+      run: |
+        curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+    - name: Deploy
+      run: |
+        stage=${{ inputs.stage }}
+        if [ $stage = "backend" ]; then
+          helm upgrade --install 0.1.0 kubernetes --atomic \
+            -f kubernetes/values-backend.yaml \
+            --set deployment.template.spec.container.image=gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/backend \
+            --set-string "deployment.env[0].value=${{ secrets.POSTGRES_PASSWORD }}" 
+        elif [ $stage = "database" ]; then
+          helm upgrade --install 0.1.0 kubernetes --atomic \
+          -f kubernetes/values-database.yaml \
+          --set-string "deployment.env[0].value=${{ secrets.POSTGRES_USER }}" \
+          --set-string "deployment.env[1].value=${{ secrets.POSTGRES_PASSWORD }}" \
+          --set-string "deployment.env[2].value=${{ secrets.POSTGRES_DB }}"
+        fi
+
+
+    

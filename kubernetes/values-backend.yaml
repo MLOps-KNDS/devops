@@ -1,0 +1,35 @@
+deployment:
+  replicas: 1
+  name: backend
+  template:
+    spec:
+      container:
+        image: 
+        imagePullPolicy: IfNotPresent
+        port: 8000
+        resources:
+          requests:
+            memory: 300Mi
+            cpu: 200m
+          limits:
+            memory: 400Mi
+            cpu: 200m
+  env:
+    - name: POSTGRES_PASSWORD
+      value: 
+
+service:
+  name: backend-service
+  type: NodePort
+  ports:
+    port: 8000
+    target: 8000
+    node: 30001
+    protocol: TCP
+
+account:
+  service:
+    name: admin
+
+role:
+  name: pods-list
