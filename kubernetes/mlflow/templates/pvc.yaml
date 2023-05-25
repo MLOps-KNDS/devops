@@ -6,7 +6,7 @@ metadata:
 spec:
   storageClassName: mlflow-storage
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 20Gi
