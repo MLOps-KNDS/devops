@@ -23,8 +23,10 @@ spec:
         ports:
         - containerPort: 8000
         volumeMounts:
-          - mountPath: /mnt/mlflow-storage
-            name: mlflow-storage
+        - name: mlflow-storage
+          mountPath: /mnt/mlflow-storage
+        - name: dind-storage
+          mountPath: /var/lib/docker
         resources:
           requests:
             cpu: 200m
@@ -38,6 +40,8 @@ spec:
         - name: POSTGRES_PASSWORD
           value: {{ .Values.postgres_password }}
       volumes:
-        - name: mlflow-storage
-          persistentVolumeClaim:
-            claimName: mlflow-storage
+      - name: mlflow-storage
+        persistentVolumeClaim:
+          claimName: mlflow-storage
+      - name: dind-storage
+        emptyDir: {}
