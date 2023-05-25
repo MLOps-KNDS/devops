@@ -110,6 +110,14 @@ jobs:
     with:
       stage: backend
     secrets: inherit
+  
+  deploy-mlflow:
+    name: Deploy mlflow
+    needs: [install-istio, build-backend, build-frontend]
+    uses: ./.github/workflows/deploy_component.yaml
+    with:
+      stage: mlflow
+    secrets: inherit
 
   deploy-frontend:
     name: Deploy frontend
