@@ -54,8 +54,4 @@ jobs:
             --set postgres_password=${{ secrets.POSTGRES_PASSWORD }} \
             --set postgres_db=${{ secrets.POSTGRES_DB }}
 
-        elif [ $stage = "frontend" ]; then
-          helm upgrade --install frontend ./kubernetes/frontend --atomic \
-            --set image=gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/frontend 
-
         fi
