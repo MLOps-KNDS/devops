@@ -2,6 +2,7 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: mlflow-storage
+  namespace: app
 provisioner: kubernetes.io/gce-pd
 volumeBindingMode: Immediate
 allowVolumeExpansion: true
