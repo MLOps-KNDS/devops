@@ -22,6 +22,9 @@ spec:
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
+        volumeMounts:
+          - mountPath: /mnt/mlflow-storage
+            name: mlflow-storage
         resources:
           requests:
             cpu: 200m
@@ -34,3 +37,7 @@ spec:
           value: database
         - name: POSTGRES_PASSWORD
           value: {{ .Values.postgres_password }}
+      volumes:
+        - name: mlflow-storage
+          persistentVolumeClaim:
+            claimName: mlflow-storage

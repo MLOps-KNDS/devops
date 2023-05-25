@@ -54,4 +54,7 @@ jobs:
             --set postgres_password=${{ secrets.POSTGRES_PASSWORD }} \
             --set postgres_db=${{ secrets.POSTGRES_DB }}
 
+        elif [ $stage = "mlflow" ]; then
+          helm upgrade --install mlflow ./kubernetes/mlflow --atomic
+          
         fi
