@@ -97,7 +97,7 @@ jobs:
 
   deploy-database:
     name: Deploy database
-    needs: [install-istio, build-backend, build-frontend]
+    # needs: [install-istio, build-backend, build-frontend]
     uses: ./.github/workflows/deploy_component.yaml
     with:
       stage: database
@@ -105,7 +105,7 @@ jobs:
 
   deploy-backend:
     name: Deploy backend
-    needs: [install-istio, build-backend, build-frontend]
+    # needs: [install-istio, build-backend, build-frontend]
     uses: ./.github/workflows/deploy_component.yaml
     with:
       stage: backend
@@ -113,7 +113,7 @@ jobs:
   
   deploy-mlflow:
     name: Deploy mlflow
-    needs: [install-istio, build-backend, build-frontend]
+    # needs: [install-istio, build-backend, build-frontend]
     uses: ./.github/workflows/deploy_component.yaml
     with:
       stage: mlflow
@@ -121,7 +121,7 @@ jobs:
 
   deploy-frontend:
     name: Deploy frontend
-    needs: [install-istio, build-backend, build-frontend]
+    # needs: [install-istio, build-backend, build-frontend]
     uses: ./.github/workflows/deploy_component.yaml
     with:
       stage: frontend
