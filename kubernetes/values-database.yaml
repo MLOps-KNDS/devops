@@ -1,3 +1,5 @@
+namespace: app
+
 deployment:
   replicas: 1
   name: database
@@ -23,7 +25,7 @@ deployment:
       value: 
 
 service:
-  name: database-service
+  name: database
   ports:
     port: 5432
     target: 5432
@@ -31,7 +33,7 @@ service:
 
 account:
   service:
-    name: admin
+    name: admin-database
 
 role:
-  name: pods-list
+  name: pods-list-database

@@ -43,12 +43,12 @@ jobs:
       run: |
         stage=${{ inputs.stage }}
         if [ $stage = "backend" ]; then
-          helm upgrade --install 0.1.0 kubernetes --atomic \
+          helm upgrade --install --force backend ./kubernetes --atomic \
             -f kubernetes/values-backend.yaml \
             --set deployment.template.spec.container.image=gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/backend \
-            --set-string "deployment.env[0].value=${{ secrets.POSTGRES_PASSWORD }}" 
+            --set-string "deployment.env[1].value=${{ secrets.POSTGRES_PASSWORD }}" 
         elif [ $stage = "database" ]; then
-          helm upgrade --install 0.1.0 kubernetes --atomic \
+          helm upgrade --install --force database ./kubernetes --atomic \
           -f kubernetes/values-database.yaml \
           --set-string "deployment.env[0].value=${{ secrets.POSTGRES_USER }}" \
           --set-string "deployment.env[1].value=${{ secrets.POSTGRES_PASSWORD }}" \

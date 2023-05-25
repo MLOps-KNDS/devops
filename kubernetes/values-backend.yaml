@@ -1,3 +1,5 @@
+namespace: app
+
 deployment:
   replicas: 1
   name: backend
@@ -15,11 +17,13 @@ deployment:
             memory: 400Mi
             cpu: 200m
   env:
+    - name: POSTGRES_HOST
+      value: database
     - name: POSTGRES_PASSWORD
       value: 
 
 service:
-  name: backend-service
+  name: backend
   type: NodePort
   ports:
     port: 8000
@@ -29,7 +33,7 @@ service:
 
 account:
   service:
-    name: admin
+    name: admin-backend
 
 role:
-  name: pods-list
+  name: pods-list-backend
