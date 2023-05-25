@@ -25,3 +25,5 @@ GitHub Actions workflows in this repository:
 - `GCP Environment` creates/destroys GCP resources.
 
 ## Continues Deployment on Kubernetes
+
+![image](https://github.com/MLOps-KNDS/devops/assets/30211831/280a0cb2-8442-4b22-8494-a6dd059fbcdc)
