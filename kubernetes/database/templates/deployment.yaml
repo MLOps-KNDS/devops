@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+  namespace: app
+  labels:
+    app: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      containers:
+      - name: database
+        image: postgres:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5432
+        resources:
+          requests:
+            cpu: 200m
+            memory: 300Mi
+          limits:
+            cpu: 300m
+            memory: 400Mi
+        env:
+        - name: POSTGRES_USER
+          value: {{ .Values.postgres_user }}
+        - name: POSTGRES_PASSWORD
+          value: {{ .Values.postgres_password }}
+        - name: POSTGRES_DB
+          value: {{ .Values.postgres_db }}
