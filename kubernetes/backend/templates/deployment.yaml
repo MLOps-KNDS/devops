@@ -46,7 +46,7 @@ spec:
         - name: GCP_PROJECT_ID
           value: {{ .Values.gcp_project_id }}
         - name: GCP_CREDENTIALS
-          value: {{ .Values.gcp_credentials | toJson | b64enc | quote }}
+          value: {{ .Values.gcp_credentials | b64enc | quote }}
       volumes:
       - name: mlflow-storage
         persistentVolumeClaim:
