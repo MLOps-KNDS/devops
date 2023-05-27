@@ -28,6 +28,16 @@ jobs:
       image-tag: latest
     secrets: inherit
 
+  build-mlflow:
+    name: Build mlflow
+    uses: ./.github/workflows/build_image.yaml
+    with:
+      repository: MLOps-KNDS/devops
+      dockerfile-path: .
+      image-name: mlflow
+      image-tag: latest
+    secrets: inherit
+
   create-namespaces:
     name: Create Namespaces
     runs-on: ubuntu-latest
