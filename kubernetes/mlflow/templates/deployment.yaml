@@ -17,14 +17,13 @@ spec:
     spec:
       containers:
       - name: mlflow
-        imagePullPolicy: Never
         image: mlflow:latest
         ports:
         - containerPort: 5000
-      #   volumeMounts:
-      #     - name: mlflow-storage
-      #       mountPath: /mnt/mlflow-storage
-      # volumes:
-      # - name: mlflow-storage
-      #   persistentVolumeClaim:
-      #     claimName: mlflow-storage
+        volumeMounts:
+          - name: mlflow-storage
+            mountPath: /mnt/mlflow-storage
+      volumes:
+      - name: mlflow-storage
+        persistentVolumeClaim:
+          claimName: mlflow-storage
