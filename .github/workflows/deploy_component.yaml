@@ -45,7 +45,9 @@ jobs:
             --set image=gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/backend \
             --set postgres_password=${{ secrets.POSTGRES_PASSWORD }} \
             --set gcp_project_id=${{ secrets.GOOGLE_PROJECT_ID }} \
-            --set gcp_credentials_encoded=${{ secrets.GOOGLE_CREDENTIALS_ENCODED }}
+            --set gcp_credentials_encoded=${{ secrets.GOOGLE_CREDENTIALS_ENCODED }} \
+            --set google_client_id=${{ secrets.GOOGLE_CLIENT_ID }} \
+            --set google_client_secret=${{ secrets.GOOGLE_CLIENT_SECRET }}
 
         elif [ $stage = "database" ]; then
           helm upgrade --install database ./kubernetes/database --atomic \
