@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = "mlops-knds-tf-state-store"
+    bucket = "mlops-knds-terraform-state-store"
     prefix = "terraform/state"
   }
 }
