@@ -45,7 +45,7 @@ jobs:
 
         if [ $stage = "backend" ]; then
           helm upgrade --install backend ./kubernetes/backend --atomic \
-            --set image=gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/backend \
+            --set image=gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/backend:0.1 \
             --set postgres_password=${{ secrets.POSTGRES_PASSWORD }}
 
         elif [ $stage = "database" ]; then
@@ -55,6 +55,6 @@ jobs:
             --set postgres_db=${{ secrets.POSTGRES_DB }}
 
         elif [ $stage = "mlflow" ]; then
-          helm upgrade --install mlflow ./kubernetes/mlflow --atomic
+          helm upgrade --install mlflow ./kubernetes/mlflow:0.1 --atomic
           
         fi

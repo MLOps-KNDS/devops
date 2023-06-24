@@ -15,7 +15,7 @@ jobs:
       repository: MLOps-KNDS/backend
       dockerfile-path: app
       image-name: backend
-      image-tag: latest
+      image-tag: 0.1
     secrets: inherit
 
   build-frontend:
@@ -25,7 +25,7 @@ jobs:
       repository: MLOps-KNDS/frontend
       dockerfile-path: .
       image-name: frontend
-      image-tag: latest
+      image-tag: 0.1
     secrets: inherit
 
   build-mlflow:
@@ -33,9 +33,9 @@ jobs:
     uses: ./.github/workflows/build_image.yaml
     with:
       repository: MLOps-KNDS/devops
-      dockerfile-path: .
+      dockerfile-path: mlflow
       image-name: mlflow
-      image-tag: latest
+      image-tag: 0.1
     secrets: inherit
 
   create-namespaces:
