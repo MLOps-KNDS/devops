@@ -23,8 +23,6 @@ spec:
         ports:
         - containerPort: 8000
         volumeMounts:
-        - name: mlflow-storage
-          mountPath: /mnt/mlflow-storage
         - name: docker
           mountPath: /var/lib/docker
         - name: docker-socket
@@ -44,9 +42,6 @@ spec:
         - name: POSTGRES_PASSWORD
           value: {{ .Values.postgres_password }}
       volumes:
-      - name: mlflow-storage
-        persistentVolumeClaim:
-          claimName: mlflow-storage
       - name: docker
         emptyDir: {}
       - name: docker-socket

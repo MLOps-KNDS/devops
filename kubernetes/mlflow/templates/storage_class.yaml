@@ -3,7 +3,7 @@ kind: StorageClass
 metadata:
   name: mlflow-storage
   namespace: app
-provisioner: kubernetes.io/no-provisioner
+provisioner: kubernetes.io/gce-pd
 volumeBindingMode: Immediate
 allowVolumeExpansion: true
 reclaimPolicy: Delete
