@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = "mlops-knds-tf-state-store"
+    bucket = "mlops-knds-terraform-state-store"
     prefix = "terraform/state"
   }
 }
@@ -23,5 +23,5 @@ module "gke" {
 
   name       = "main-cluster"
   node_count = 3
-  node_size  = "e2-standard-4"
+  node_size  = "n1-standard-4"
 }

@@ -6,6 +6,7 @@ on:
       stage:
         type: string
         required: true
+        
 jobs:
 
   build:
@@ -31,10 +32,6 @@ jobs:
         location: ${{ secrets.GOOGLE_ZONE }}
         project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
 
-
-    - name: Configure Docker to use GCR
-      run: gcloud auth configure-docker 
-
     - name: Install Helm
       run: |
         curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
@@ -46,7 +43,11 @@ jobs:
         if [ $stage = "backend" ]; then
           helm upgrade --install backend ./kubernetes/backend --atomic \
             --set image=gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/backend:0.1 \
-            --set postgres_password=${{ secrets.POSTGRES_PASSWORD }}
+            --set postgres_password=${{ secrets.POSTGRES_PASSWORD }} \
+            --set gcp_project_id=${{ secrets.GOOGLE_PROJECT_ID }} \
+            --set gcp_credentials_encoded=${{ secrets.GOOGLE_CREDENTIALS_ENCODED }} \
+            --set google_client_id=${{ secrets.GOOGLE_CLIENT_ID }} \
+            --set google_client_secret=${{ secrets.GOOGLE_CLIENT_SECRET }}
 
         elif [ $stage = "database" ]; then
           helm upgrade --install database ./kubernetes/database --atomic \
