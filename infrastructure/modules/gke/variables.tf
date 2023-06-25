@@ -12,3 +12,13 @@ variable "node_size" {
   description = "A size of a kubernetes node."
   type        = string
 }
+
+variable "network" {
+  description = "A name of a network."
+  type        = string
+}
+  
+variable "subnet" {
+  description = "A name of a subnet."
+  type        = string
+}
