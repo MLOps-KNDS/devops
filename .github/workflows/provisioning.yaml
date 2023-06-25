@@ -1,4 +1,4 @@
-name: 'Deploy to Kubernetes'
+name: 'Provisioning'
 
 on:
   workflow_dispatch:

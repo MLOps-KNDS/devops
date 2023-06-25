@@ -18,10 +18,19 @@ provider "google" {
   zone    = var.DEFAULT_ZONE
 }
 
+resource "google_compute_address" "backend-static-ip-address" {
+  name   = "backend-static-ip-address"
+}
+
 module "gke" {
   source = "./modules/gke"
 
   name       = "main-cluster"
   node_count = 3
   node_size  = "e2-standard-4"
+}
+
+output "backend-static-ip-address" {
+  value     = google_compute_address.backend-static-ip-address.address
+  sensitive = false
 }

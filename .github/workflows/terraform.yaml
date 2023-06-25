@@ -55,6 +55,9 @@ jobs:
       run: |
         cd infrastructure
         terraform apply -auto-approve -lock=false
+
+        backend_static_ip_address=$(terraform output -raw backend_static_ip_address)
+        echo $backend_static_ip_address
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
         TF_VAR_PROJECT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
