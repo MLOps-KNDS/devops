@@ -52,6 +52,7 @@ module "cloud-nat" {
   source                             = "terraform-google-modules/cloud-nat/google"
   version                            = "~> 4.0"
   router                             = google_compute_router.router.name
+  region                             = var.region
   name                               = "nat-config"
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
 }

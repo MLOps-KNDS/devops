@@ -42,4 +42,5 @@ module "gke" {
   node_size  = "e2-standard-4"
   network    = module.vpc-network.network_name
   subnet     = module.vpc-network.subnets[0].subnet_name
+  region     = var.DEFAULT_REGION
 }

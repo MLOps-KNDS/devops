@@ -22,3 +22,8 @@ variable "subnet" {
   description = "A name of a subnet."
   type        = string
 }
+
+variable "region" {
+  description = "A region name."
+  type        = string
+}
