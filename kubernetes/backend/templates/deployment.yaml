@@ -18,8 +18,8 @@ spec:
       serviceAccountName: admin
       containers:
       - name: backend
+        imagePullPolicy: Always
         image: {{ .Values.image }}
-        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
         volumeMounts:

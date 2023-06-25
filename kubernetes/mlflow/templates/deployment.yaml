@@ -17,6 +17,7 @@ spec:
     spec:
       containers:
       - name: mlflow
+        imagePullPolicy: Always
         image: {{ .Values.image }}
         ports:
         - containerPort: 5000
