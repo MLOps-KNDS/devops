@@ -15,8 +15,6 @@ spec:
       labels:
         app: mlflow
     spec:
-      securityContext:
-        fsGroup: 1000
       containers:
       - name: mlflow
         image: {{ .Values.image }}
