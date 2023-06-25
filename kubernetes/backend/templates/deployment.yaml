@@ -18,13 +18,11 @@ spec:
       serviceAccountName: admin
       containers:
       - name: backend
+        imagePullPolicy: Always
         image: {{ .Values.image }}
-        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
         volumeMounts:
-        - name: mlflow-storage
-          mountPath: /mnt/mlflow-storage
         - name: docker
           mountPath: /var/lib/docker
         - name: docker-socket
@@ -52,9 +50,6 @@ spec:
         - name: GOOGLE_CLIENT_SECRET
           value: {{ .Values.google_client_secret }}
       volumes:
-      - name: mlflow-storage
-        persistentVolumeClaim:
-          claimName: mlflow-storage
       - name: docker
         emptyDir: {}
       - name: docker-socket

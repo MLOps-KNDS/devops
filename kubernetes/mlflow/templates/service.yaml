@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mlflow
+  namespace: app
+spec:
+  type: LoadBalancer
+  selector:
+    app: mlflow
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
