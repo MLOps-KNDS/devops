@@ -24,4 +24,5 @@ module "gke" {
   name       = "main-cluster"
   node_count = 3
   node_size  = "e2-standard-4"
+  project_id = var.PROJECT_ID
 }

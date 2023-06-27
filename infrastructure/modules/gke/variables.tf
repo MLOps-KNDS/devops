@@ -12,3 +12,8 @@ variable "node_size" {
   description = "A size of a kubernetes node."
   type        = string
 }
+
+variable "project_id" {
+  description = "A project id."
+  type        = string
+}
