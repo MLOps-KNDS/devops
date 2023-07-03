@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
-  namespace: app
+  name: tyro-backend
+  namespace: tyro-app
   labels:
-    app: backend
+    app: tyro-backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: backend
+      app: tyro-backend
   template:
     metadata:
       labels:
-        app: backend
+        app: tyro-backend
     spec:
       serviceAccountName: admin
       containers:
-      - name: backend
+      - name: tyro-backend
         imagePullPolicy: Always
-        image: {{ .Values.image }}
+        image: "gcr.io/{{ .Values.google-cloud.project-id }}/tyro-backend:1.0"
         ports:
         - containerPort: 8000
         volumeMounts:
@@ -38,17 +38,17 @@ spec:
             memory: 400Mi
         env:
         - name: POSTGRES_HOST
-          value: database
+          value: tyro-db
         - name: POSTGRES_PASSWORD
-          value: {{ .Values.postgres_password }}
+          value: {{ .Values.database.password }}
         - name: GCP_PROJECT_ID
-          value: {{ .Values.gcp_project_id }}
+          value: {{ .Values.google-cloud.project-id }}
         - name: GCP_CREDENTIALS_ENCODED
-          value: {{ .Values.gcp_credentials_encoded }}
+          value: {{ .Values.google-cloud.credentials-encoded-base64 }}
         - name: GOOGLE_CLIENT_ID
-          value: {{ .Values.google_client_id }}
+          value: {{ .Values.google-cloud.api.client-id }}
         - name: GOOGLE_CLIENT_SECRET
-          value: {{ .Values.google_client_secret }}
+          value: {{ .Values.google-cloud.api.client-secret }}
       volumes:
       - name: docker
         emptyDir: {}

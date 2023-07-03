@@ -1,21 +1,13 @@
-name: 'GCP Environment'
+name: Terraform
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       mode:
-        type: choice
+        type: string
         description: Mode
         required: true
         default: Destroy
-        options:
-          - Create
-          - Destroy
-  schedule:
-    - cron: 0 1 * * *
-
-permissions:
-  contents: read
 
 jobs:
 

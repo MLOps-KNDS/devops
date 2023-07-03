@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mlflow-storage
-  namespace: app
+  name: tyro-mlflow-storage
+  namespace: tyro-app
 spec:
-  storageClassName: mlflow-storage
+  storageClassName: tyro-mlflow-storage
   accessModes:
     - ReadWriteOnce
   resources:

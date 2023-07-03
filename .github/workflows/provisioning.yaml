@@ -1,0 +1,76 @@
+name: Provisioning
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        type: choice
+        description: Mode
+        required: true
+        default: Destroy
+        options:
+          - Destroy
+          - Create
+
+permissions:
+  contents: read
+
+jobs:
+
+  terraform-apply:
+    if: github.event.inputs.mode == 'Create'
+    name: 'Terraform: Create'
+    uses: ./.github/workflows/terraform.yaml
+    with:
+      mode: Create
+
+  terraform-destroy:
+    if: github.event.inputs.mode == 'Destroy'
+    name: 'Terraform: Create'
+    uses: ./.github/workflows/terraform.yaml
+    with:
+      mode: Destroy
+
+  build-backend:
+    needs: [terraform-apply]
+    name: Build backend
+    uses: ./.github/workflows/build.yaml
+    with:
+      repository: MLOps-KNDS/backend
+      dockerfile-path: app
+      image-name: tyro-backend
+      image-tag: 1.0
+    secrets: inherit
+
+  build-frontend:
+    needs: [terraform-apply]
+    name: Build frontend
+    uses: ./.github/workflows/build.yaml
+    with:
+      repository: MLOps-KNDS/frontend
+      dockerfile-path: .
+      image-name: tyro-ui
+      image-tag: 1.0
+    secrets: inherit
+
+  build-mlflow:
+    needs: [terraform-apply]
+    name: Build mlflow
+    uses: ./.github/workflows/build.yaml
+    with:
+      repository: MLOps-KNDS/devops
+      dockerfile-path: mlflow
+      image-name: tyro-mlflow
+      image-tag: 1.0
+    secrets: inherit
+
+  install-istio:
+    needs: [terraform-apply]
+    uses: ./.github/workflows/install_istio.yaml
+    secrets: inherit
+
+  deploy:
+    name: Deploy
+    needs: [install-istio]
+    uses: ./.github/workflows/deploy.yaml
+    secrets: inherit

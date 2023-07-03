@@ -1,7 +1,7 @@
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: pods-list
+  name: tyro-backend-clusterrole
 rules:
   - apiGroups:
         - ""
@@ -39,12 +39,12 @@ rules:
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: pods-list
+  name: tyro-app-clusterrolebinding
 subjects:
 - kind: ServiceAccount
-  name: admin
-  namespace: app
+  name: tyro-service-account
+  namespace: tyro-app
 roleRef:
   kind: ClusterRole
-  name: pods-list
+  name: tyro-backend-clusterrole
   apiGroup: rbac.authorization.k8s.io

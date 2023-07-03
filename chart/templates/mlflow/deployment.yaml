@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mlflow
-  namespace: app
+  name: tyro-mlflow
+  namespace: tyro-app
   labels:
-    app: mlflow
+    app: tyro-mlflow
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mlflow
+      app: tyro-mlflow
   template:
     metadata:
       labels:
-        app: mlflow
+        app: tyro-mlflow
     spec:
       containers:
-      - name: mlflow
+      - name: tyro-mlflow
         imagePullPolicy: Always
-        image: {{ .Values.image }}
+        image: "gcr.io/{{ .Values.google-cloud.project-id }}/tyro-mlflow:1.0"
         ports:
         - containerPort: 5000
         volumeMounts:
