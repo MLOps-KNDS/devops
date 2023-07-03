@@ -27,4 +27,4 @@ spec:
       volumes:
       - name: mlflow-storage
         persistentVolumeClaim:
-          claimName: mlflow-storage
+          claimName: tyro-mlflow-storage

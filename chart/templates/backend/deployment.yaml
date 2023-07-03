@@ -15,7 +15,7 @@ spec:
       labels:
         app: tyro-backend
     spec:
-      serviceAccountName: admin
+      serviceAccountName: tyro-service-account
       containers:
       - name: tyro-backend
         imagePullPolicy: Always
