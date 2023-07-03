@@ -23,6 +23,7 @@ jobs:
     uses: ./.github/workflows/terraform.yaml
     with:
       mode: Create
+    secrets: inherit
 
   terraform-destroy:
     if: github.event.inputs.mode == 'Destroy'
@@ -30,6 +31,7 @@ jobs:
     uses: ./.github/workflows/terraform.yaml
     with:
       mode: Destroy
+    secrets: inherit
 
   build-backend:
     needs: [terraform-apply]
