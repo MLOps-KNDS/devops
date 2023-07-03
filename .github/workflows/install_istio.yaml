@@ -41,4 +41,4 @@ jobs:
 
     - name: Enable injection
       shell: bash
-      run: kubectl label namespace models istio-injection=enabled
+      run: kubectl label namespace tyro-models istio-injection=enabled
