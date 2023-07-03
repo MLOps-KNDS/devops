@@ -41,7 +41,7 @@ jobs:
       repository: MLOps-KNDS/backend
       dockerfile-path: app
       image-name: tyro-backend
-      image-tag: 1.0
+      image-tag: '1.0'
     secrets: inherit
 
   build-frontend:
@@ -52,7 +52,7 @@ jobs:
       repository: MLOps-KNDS/frontend
       dockerfile-path: .
       image-name: tyro-ui
-      image-tag: 1.0
+      image-tag: '1.0'
     secrets: inherit
 
   build-mlflow:
@@ -63,7 +63,7 @@ jobs:
       repository: MLOps-KNDS/devops
       dockerfile-path: mlflow
       image-name: tyro-mlflow
-      image-tag: 1.0
+      image-tag: '1.0'
     secrets: inherit
 
   install-istio:
