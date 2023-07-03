@@ -35,10 +35,10 @@ jobs:
     - name: Deploy
       run: |
         helm upgrade --install tyro ./chart --atomic \
-          --set google-cloud.project-id=${{ secrets.GOOGLE_PROJECT_ID }} \
-          --set google-cloud.credentials-encoded-base64=${{ secrets.GOOGLE_CREDENTIALS_ENCODED }} \
-          --set google-cloud.api.client-id=${{ secrets.GOOGLE_CLIENT_ID }} \
-          --set google-cloud.api.client-secret=${{ secrets.GOOGLE_CLIENT_SECRET }} \
+          --set googleCloud.projectId=${{ secrets.GOOGLE_PROJECT_ID }} \
+          --set googleCloud.credentialsEncodedBase64=${{ secrets.GOOGLE_CREDENTIALS_ENCODED }} \
+          --set googleCloud.api.clientId=${{ secrets.GOOGLE_CLIENT_ID }} \
+          --set googleCloud.api.clientSecret=${{ secrets.GOOGLE_CLIENT_SECRET }} \
           --set database.user=${{ secrets.POSTGRES_USER }} \
           --set database.password=${{ secrets.POSTGRES_PASSWORD }} \
-          --set database.database=${{ secrets.POSTGRES_DB }} \
+          --set database.database=${{ secrets.POSTGRES_DB }}

@@ -23,6 +23,7 @@ jobs:
     uses: ./.github/workflows/terraform.yaml
     with:
       mode: Create
+    secrets: inherit
 
   terraform-destroy:
     if: github.event.inputs.mode == 'Destroy'
@@ -30,6 +31,18 @@ jobs:
     uses: ./.github/workflows/terraform.yaml
     with:
       mode: Destroy
+    secrets: inherit
+
+  create-namespaces:
+    needs: [terraform-apply]
+    name: Create Namespaces
+    uses: ./.github/workflows/namespaces.yaml
+    secrets: inherit
+
+  install-istio:
+    needs: [create-namespaces]
+    uses: ./.github/workflows/install_istio.yaml
+    secrets: inherit
 
   build-backend:
     needs: [terraform-apply]
@@ -39,7 +52,7 @@ jobs:
       repository: MLOps-KNDS/backend
       dockerfile-path: app
       image-name: tyro-backend
-      image-tag: 1.0
+      image-tag: '1.0'
     secrets: inherit
 
   build-frontend:
@@ -50,7 +63,7 @@ jobs:
       repository: MLOps-KNDS/frontend
       dockerfile-path: .
       image-name: tyro-ui
-      image-tag: 1.0
+      image-tag: '1.0'
     secrets: inherit
 
   build-mlflow:
@@ -61,16 +74,11 @@ jobs:
       repository: MLOps-KNDS/devops
       dockerfile-path: mlflow
       image-name: tyro-mlflow
-      image-tag: 1.0
-    secrets: inherit
-
-  install-istio:
-    needs: [terraform-apply]
-    uses: ./.github/workflows/install_istio.yaml
+      image-tag: '1.0'
     secrets: inherit
 
   deploy:
     name: Deploy
-    needs: [install-istio]
+    needs: [install-istio, build-backend, build-frontend, build-mlflow]
     uses: ./.github/workflows/deploy.yaml
     secrets: inherit
