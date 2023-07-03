@@ -33,6 +33,17 @@ jobs:
       mode: Destroy
     secrets: inherit
 
+  create-namespaces:
+    needs: [terraform-apply]
+    name: Create Namespaces
+    uses: ./.github/workflows/namespaces.yaml
+    secrets: inherit
+
+  install-istio:
+    needs: [create-namespaces]
+    uses: ./.github/workflows/install_istio.yaml
+    secrets: inherit
+
   build-backend:
     needs: [terraform-apply]
     name: Build backend
@@ -64,17 +75,6 @@ jobs:
       dockerfile-path: mlflow
       image-name: tyro-mlflow
       image-tag: '1.0'
-    secrets: inherit
-
-  create-namespaces:
-    needs: [terraform-apply]
-    name: Create Namespaces
-    uses: ./.github/workflows/namespaces.yaml
-    secrets: inherit
-
-  install-istio:
-    needs: [create-namespaces]
-    uses: ./.github/workflows/install_istio.yaml
     secrets: inherit
 
   deploy:
