@@ -2,12 +2,12 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = "3.5.0"
+      version = "4.72.0"
     }
   }
 
   backend "gcs" {
-    bucket = "mlops-knds-terraform-state-store"
+    bucket = "tyro-terraform-state-store"
     prefix = "terraform/state"
   }
 }

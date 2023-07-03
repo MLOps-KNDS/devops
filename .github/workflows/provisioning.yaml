@@ -71,6 +71,6 @@ jobs:
 
   deploy:
     name: Deploy
-    needs: [install-istio]
+    needs: [install-istio, build-backend, build-frontend, build-mlflow]
     uses: ./.github/workflows/deploy.yaml
     secrets: inherit
