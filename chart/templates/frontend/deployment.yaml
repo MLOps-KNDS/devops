@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
-  namespace: app
+  name: tyro-ui
+  namespace: tyro-app
   labels:
-    app: frontend
+    app: tyro-ui
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      app: tyro-ui
   template:
     metadata:
       labels:
-        app: frontend
+        app: tyro-ui
     spec:
       containers:
-      - name: frontend
+      - name: tyro-ui
         imagePullPolicy: Always
-        image: {{ .Values.image }}
+        image: "gcr.io/{{ .Values.google-cloud.project-id }}/tyro-ui:1.0"
         ports:
         - containerPort: 8000
         resources:

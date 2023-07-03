@@ -1,0 +1,5 @@
+apiVersion: v2
+name: Tyro
+version: '1.0'
+description: Tyro is a model serving application, which is a part of the MLOps pipeline.
+type: application

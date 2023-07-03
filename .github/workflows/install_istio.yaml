@@ -24,6 +24,10 @@ jobs:
         cluster_name: main-cluster
         location: ${{ secrets.GOOGLE_ZONE }}
         project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
+      
+    - name: Create namespace
+      shell: bash
+      run: kubectl create namespace istio-system
 
     - name: Install istio
       shell: bash

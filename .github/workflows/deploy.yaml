@@ -1,0 +1,41 @@
+name: Deploy to GKE
+
+jobs:
+
+  build:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Authenticate to GCP
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+
+    - name: Get cluster credentials
+      uses: google-github-actions/get-gke-credentials@v1
+      with:
+        cluster_name: main-cluster
+        location: ${{ secrets.GOOGLE_ZONE }}
+        project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
+
+    - name: Install Helm
+      run: |
+        curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+    - name: Deploy
+      run: |
+        helm upgrade --install tyro ./chart --atomic \
+          --set google-cloud.project-id=${{ secrets.GOOGLE_PROJECT_ID }} \
+          --set google-cloud.credentials-encoded-base64=${{ secrets.GOOGLE_CREDENTIALS_ENCODED }} \
+          --set google-cloud.api.client-id=${{ secrets.GOOGLE_CLIENT_ID }} \
+          --set google-cloud.api.client-secret=${{ secrets.GOOGLE_CLIENT_SECRET }} \
+          --set database.user=${{ secrets.POSTGRES_USER }} \
+          --set database.password=${{ secrets.POSTGRES_PASSWORD }} \
+          --set database.database=${{ secrets.POSTGRES_DB }} \

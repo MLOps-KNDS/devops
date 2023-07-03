@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend
-  namespace: app
+  name: tyro-mlflow
+  namespace: tyro-app
 spec:
   type: LoadBalancer
   selector:
-    app: backend
+    app: tyro-app
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 8000
+      targetPort: 5000

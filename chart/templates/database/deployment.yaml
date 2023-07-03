@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: database
-  namespace: app
+  name: tyro-db
+  namespace: tyro-app
   labels:
-    app: database
+    app: tyro-db
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: database
+      app: tyro-db
   template:
     metadata:
       labels:
-        app: database
+        app: tyro-db
     spec:
       containers:
-      - name: database
+      - name: tyro-db
         image: postgres:latest
         imagePullPolicy: IfNotPresent
         ports:
@@ -30,8 +30,8 @@ spec:
             memory: 400Mi
         env:
         - name: POSTGRES_USER
-          value: {{ .Values.postgres_user }}
+          value: {{ .Values.database.user }}
         - name: POSTGRES_PASSWORD
-          value: {{ .Values.postgres_password }}
+          value: {{ .Values.database.password }}
         - name: POSTGRES_DB
-          value: {{ .Values.postgres_db }}
+          value: {{ .Values.database.database }}
