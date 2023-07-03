@@ -36,7 +36,10 @@ jobs:
 
   build-backend:
     needs: [terraform-apply]
-    if: needs.terraform-apply.result == 'skipped' && github.event.inputs.mode == 'Update'
+    if: |
+      always() && 
+      needs.terraform-apply.result == 'skipped' && 
+      github.event.inputs.mode == 'Update'
     name: Build backend
     uses: ./.github/workflows/build.yaml
     with:
