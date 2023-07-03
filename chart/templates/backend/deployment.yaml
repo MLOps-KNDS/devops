@@ -19,7 +19,7 @@ spec:
       containers:
       - name: tyro-backend
         imagePullPolicy: Always
-        image: "gcr.io/{{ .Values.google-cloud.project-id }}/tyro-backend:1.0"
+        image: "gcr.io/{{ .Values.googleCloud.projectId }}/tyro-backend:1.0"
         ports:
         - containerPort: 8000
         volumeMounts:

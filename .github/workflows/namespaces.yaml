@@ -1,12 +1,12 @@
-name: Install Istio
+name: Create Namespaces
 
 on:
   workflow_call:
 
 jobs:
 
-  istio-istio:
-    name: Install
+  create-namespaces:
+    name: Create Namespaces
     runs-on: ubuntu-latest
     steps:
 
@@ -24,15 +24,10 @@ jobs:
         cluster_name: main-cluster
         location: ${{ secrets.GOOGLE_ZONE }}
         project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
-
-    - name: Install istio
+      
+    - name: Create namespaces
       shell: bash
       run: |
-        curl -L https://istio.io/downloadIstio | sh -
-        cd istio-*
-        export PATH=$PWD/bin:$PATH
-        istioctl install -y
-
-    - name: Enable injection
-      shell: bash
-      run: kubectl label namespace tyro-models istio-injection=enabled
+        kubectl create namespace istio-system --dry-run=client -o yaml | kubectl apply -f -
+        kubectl create namespace tyro-models --dry-run=client -o yaml | kubectl apply -f -
+        kubectl create namespace tyro-app --dry-run=client -o yaml | kubectl apply -f -

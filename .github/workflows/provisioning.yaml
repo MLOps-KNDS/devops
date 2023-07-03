@@ -66,8 +66,14 @@ jobs:
       image-tag: '1.0'
     secrets: inherit
 
-  install-istio:
+  create-namespaces:
     needs: [terraform-apply]
+    name: Create Namespaces
+    uses: ./.github/workflows/namespaces.yaml
+    secrets: inherit
+
+  install-istio:
+    needs: [create-namespaces]
     uses: ./.github/workflows/install_istio.yaml
     secrets: inherit
 
