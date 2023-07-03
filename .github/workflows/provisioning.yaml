@@ -11,6 +11,7 @@ on:
         options:
           - Destroy
           - Create
+          - Update
 
 permissions:
   contents: read

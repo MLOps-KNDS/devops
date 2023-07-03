@@ -27,7 +27,7 @@ jobs:
       
     - name: Create namespace
       shell: bash
-      run: kubectl create namespace istio-system
+      run: kubectl create namespace istio-system --dry-run=client -o yaml | kubectl apply -f -
 
     - name: Install istio
       shell: bash
