@@ -18,7 +18,7 @@ spec:
       containers:
       - name: tyro-mlflow
         imagePullPolicy: Always
-        image: "gcr.io/{{ .Values.google-cloud.project-id }}/tyro-mlflow:1.0"
+        image: "gcr.io/{{ .Values.googleCloud.projectId }}/tyro-mlflow:1.0"
         ports:
         - containerPort: 5000
         volumeMounts:
