@@ -17,6 +17,7 @@ rules:
       - configmaps
       - daemonsets
       - deployments
+      - deployments/status
       - events
       - endpoints
       - horizontalpodautoscalers
@@ -32,8 +33,8 @@ rules:
       - replicasets
       - replicationcontrollers
       - serviceaccounts
-      - services`
       - services
+      - services/status
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 ---
 kind: ClusterRoleBinding
