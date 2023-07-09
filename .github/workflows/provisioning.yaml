@@ -11,6 +11,8 @@ on:
         options:
           - Destroy
           - Create
+schedule:
+    - cron: '0 2 * * *'
 
 permissions:
   contents: read
