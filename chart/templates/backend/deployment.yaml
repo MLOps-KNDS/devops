@@ -49,6 +49,11 @@ spec:
           value: {{ .Values.googleCloud.api.clientId }}
         - name: GOOGLE_CLIENT_SECRET
           value: {{ .Values.googleCloud.api.clientSecret }}
+        - name: AUTH_SECRET_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: tyro-backend-token
+              key: TOKEN
       volumes:
       - name: docker
         emptyDir: {}
