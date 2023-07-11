@@ -51,7 +51,7 @@ jobs:
     name: Build backend
     uses: ./.github/workflows/build.yaml
     with:
-      repository: MLOps-KNDS/backend
+      repository: TyroML/backend
       dockerfile-path: app
       image-name: tyro-backend
       image-tag: '1.0'
@@ -62,7 +62,7 @@ jobs:
     name: Build frontend
     uses: ./.github/workflows/build.yaml
     with:
-      repository: MLOps-KNDS/frontend
+      repository: TyroML/frontend
       dockerfile-path: .
       image-name: tyro-ui
       image-tag: '1.0'
@@ -73,7 +73,7 @@ jobs:
     name: Build mlflow
     uses: ./.github/workflows/build.yaml
     with:
-      repository: MLOps-KNDS/devops
+      repository: TyroML/devops
       dockerfile-path: mlflow
       image-name: tyro-mlflow
       image-tag: '1.0'
